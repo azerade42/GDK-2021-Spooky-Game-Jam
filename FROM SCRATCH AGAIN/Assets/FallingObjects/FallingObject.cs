@@ -8,7 +8,8 @@ public class FallingObject : MonoBehaviour
 {
     [SerializeField] protected float fallSpeed;
     Canvas textCanvas;
-    [SerializeField] Animation scoreFade;
+    //[SerializeField] Animation scoreFade;
+    public float spawnWeight;
 
     protected void StartCustom()
     {
@@ -53,7 +54,9 @@ public class FallingObject : MonoBehaviour
 
     private void DisplayScorePopup(int scoreToAdd)
     {
+        print(transform.position - textCanvas.transform.position);
         GameObject obj = ObjectPooler.Instance.SpawnFromPool("PopupScoreText", transform.position - textCanvas.transform.position);
+        print(obj);
         obj.transform.SetParent(textCanvas.transform, false);
         obj.GetComponent<RectTransform>().position = transform.position;
         obj.GetComponent<Text>().text = "+" + scoreToAdd;
