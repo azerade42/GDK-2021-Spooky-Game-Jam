@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text scoreText;
     [SerializeField] Text gameOverText;
 
+    public List<GameObject> inactiveTerrains = new List<GameObject>();
+
     private int playerScore;
     private bool gameOver = false;
 
@@ -75,5 +77,15 @@ public class GameManager : MonoBehaviour
             }
             return;
         }
+    }
+
+    public void AddInactiveTerrain(GameObject terrainToAdd)
+    {
+        inactiveTerrains.Add(terrainToAdd);
+    }
+
+    public void RemoveInactiveTerrain(GameObject terrainToRemove)
+    {
+        inactiveTerrains.Remove(terrainToRemove);
     }
 }

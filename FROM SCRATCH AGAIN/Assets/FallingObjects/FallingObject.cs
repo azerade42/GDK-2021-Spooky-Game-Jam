@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class FallingObject : MonoBehaviour
 {
     [SerializeField] protected float fallSpeed;
+
     Canvas textCanvas;
     //[SerializeField] Animation scoreFade;
     public float spawnWeight;
@@ -32,6 +33,8 @@ public class FallingObject : MonoBehaviour
         if (collision.gameObject.CompareTag("Terrain"))
         {
             collision.gameObject.SetActive(false);
+            GameManager.Instance.AddInactiveTerrain(collision.gameObject);
+            
             gameObject.SetActive(false);
         }
     }
@@ -54,9 +57,8 @@ public class FallingObject : MonoBehaviour
 
     private void DisplayScorePopup(int scoreToAdd)
     {
-        print(transform.position - textCanvas.transform.position);
+        //print(transform.position - textCanvas.transform.position);
         GameObject obj = ObjectPooler.Instance.SpawnFromPool("PopupScoreText", transform.position - textCanvas.transform.position);
-        print(obj);
         obj.transform.SetParent(textCanvas.transform, false);
         obj.GetComponent<RectTransform>().position = transform.position;
         obj.GetComponent<Text>().text = "+" + scoreToAdd;
