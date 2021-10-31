@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectPooler : MonoBehaviour
 {
@@ -55,6 +56,13 @@ public class ObjectPooler : MonoBehaviour
 
         objToSpawn.SetActive(true);
         objToSpawn.transform.position = spawnPosition;
+
+        IPooledObject pooledObj = objToSpawn.GetComponent<IPooledObject>();
+
+        if (pooledObj != null)
+        {
+            pooledObj.OnObjectSpawn();
+        }
 
         poolDictionary[tag].Enqueue(objToSpawn);
 

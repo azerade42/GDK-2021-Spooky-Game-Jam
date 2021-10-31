@@ -6,6 +6,9 @@ public class ObjectSpawner : MonoBehaviour
 {
     [SerializeField] FallingObject[] objectsToSpawn;
     FallingObject objectToSpawn;
+    [SerializeField] Transform objectSpawner;
+    SpriteRenderer objectSpawnerSR;
+    [SerializeField] float objectSpawnerMoveSpeed;
     [SerializeField] int xRange;
     [SerializeField] float yPosition;
     [SerializeField] float startSpawnRate;
@@ -15,9 +18,12 @@ public class ObjectSpawner : MonoBehaviour
     private float currentTime = 0f;
     private float timeSinceLastSpawn = 0f;
 
+    Vector3 spawnPosition;
+
     // Start is called before the first frame update
     void Start()
     {
+        objectSpawnerSR = objectSpawner.gameObject.GetComponent<SpriteRenderer>();
         spawnRate = Mathf.Clamp(Mathf.Log(currentTime, 0.05f) + 2f, 0.2f, 2);
     }
     
@@ -42,6 +48,15 @@ public class ObjectSpawner : MonoBehaviour
             timeSinceLastSpawn = 0f;
             HandleSpawnRate();
         }
+
+        Vector3 spawnerPos = objectSpawner.position;
+
+        if (spawnerPos.x > spawnPosition.x)
+            objectSpawnerSR.flipX = true;
+        else
+            objectSpawnerSR.flipX = false;
+
+        objectSpawner.position = Vector3.Lerp(spawnerPos, spawnPosition, Time.deltaTime * 1/spawnRate * objectSpawnerMoveSpeed);
     }
 
     void SpawnFallingObject()
@@ -51,10 +66,23 @@ public class ObjectSpawner : MonoBehaviour
         float xLocation = randomXLocation;
         if (randomAddon) xLocation += 0.5f;
 
-        Vector3 spawnPosition = new Vector3(xLocation, yPosition, 0);
+        spawnPosition = new Vector3(xLocation, yPosition, 0);
 
-        ObjectPooler.Instance.SpawnFromPool("Human", spawnPosition);
+        StartCoroutine(MoveUFOTowardsFallingObject(spawnPosition, 0.5f));
+        //objectSpawner.position = spawnPosition;
+
+        
 
         //Object.Instantiate<FallingObject>(objectToSpawn, spawnPosition, Quaternion.identity);
-    }    
+    }
+
+    IEnumerator MoveUFOTowardsFallingObject(Vector3 spawnPosition, float moveTime)
+    {
+        //print('g');
+        //while (Vector2.Distance(objectSpawner.position, spawnPosition) > 0.01f)
+            //print('f');
+        
+        yield return new WaitForSeconds(moveTime);
+        ObjectPooler.Instance.SpawnFromPool("Human", spawnPosition);
+    }
 }
