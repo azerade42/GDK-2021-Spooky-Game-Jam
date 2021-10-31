@@ -88,7 +88,7 @@ public class FallingObject : MonoBehaviour
         {
             scoreToAdd = 10;
         }
-        else if (Ypos > -4f)
+        else if (Ypos > -4.5f)
         {
             scoreToAdd = 5;
         }
