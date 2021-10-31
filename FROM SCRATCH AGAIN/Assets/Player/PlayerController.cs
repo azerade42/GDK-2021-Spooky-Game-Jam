@@ -5,8 +5,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     SpriteRenderer spriteRenderer;
     Rigidbody2D rb;
+    Animator animator;
 
     [SerializeField] float speed;
     [SerializeField] float jumpSpeed;
@@ -45,6 +53,7 @@ public class PlayerController : MonoBehaviour
         GMI = GameManager.Instance;
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
         storedJumps = numJumps;
         storedDashes = numDashes;
@@ -78,6 +87,8 @@ public class PlayerController : MonoBehaviour
         if (!isDashing)
             rb.velocity = new Vector2(xMovement, rb.velocity.y);
 
+        animator.SetFloat("moveSpeed", Mathf.Abs(xMovement));
+
         if (xMovement < 0)
         {
             direction = -1;
@@ -89,10 +100,12 @@ public class PlayerController : MonoBehaviour
             spriteRenderer.flipX = false;
         }
 
-        if (isGrounded == true)
+        if (isGrounded)
         {
             numJumps = storedJumps;
             numDashes = storedDashes;
+            animator.SetBool("isJumping", false);
+            animator.SetBool("isDashing", false);
             spriteRenderer.color = new Color(255, 255, 255);
         }
 
@@ -114,6 +127,9 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Dash()
     {
+        animator.SetBool("isJumping", false);
+        animator.SetBool("isDashing", true);
+
         isDashing = true;
         timeSinceLastDash = 0f;
         numDashes--;
@@ -126,7 +142,6 @@ public class PlayerController : MonoBehaviour
         {
             spriteRenderer.color = new Color(150, 150, 0);
         }
-        
 
         yield return new WaitForSeconds(dashTime);
 
@@ -138,10 +153,24 @@ public class PlayerController : MonoBehaviour
     {
         numJumps--;
         rb.velocity = Vector2.up * jumpSpeed;
+        animator.SetBool("isDashing", false);
+
+        StartCoroutine(StartJumpingAnimation());
 
         if (numJumps == 0)
         {
             spriteRenderer.color = new Color(0, 255, 255);
         }
+    }
+
+    public Vector2 GetPlayerPos()
+    {
+        return gameObject.transform.position;
+    }
+
+    IEnumerator StartJumpingAnimation()
+    {
+        yield return new WaitForSeconds(0.1f);
+        animator.SetBool("isJumping", true);
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2489794785740053557}
   - component: {fileID: 3019871721413779049}
   - component: {fileID: 6783798002126748766}
+  - component: {fileID: 1146147540}
   m_Layer: 0
   m_Name: Bean
   m_TagString: FallingObject
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5e6bafb77f6854bc28230ff9181c457d, type: 3}
+  m_Sprite: {fileID: 3142708051719445267, guid: 6e8b11fdc4ee9461db16146044c01bcf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -157,6 +158,25 @@ PolygonCollider2D:
       - {x: 0.234375, y: -0.203125}
       - {x: 0.28125, y: -0.078125}
       - {x: 0.375, y: -0.078125}
+--- !u!95 &1146147540
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2489794785740053559}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8cc6d8836d7ce448a8efa299ab935bc5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6526644843595358274
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,3 +249,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallSpeed: 0
   spawnWeight: 0
+  parent: {fileID: 0}

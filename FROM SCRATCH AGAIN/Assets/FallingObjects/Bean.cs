@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bean : FallingObject
 {
     SpriteRenderer spriteRenderer;
+    
     // Start is called before the first frame update
     void Start()
     {
