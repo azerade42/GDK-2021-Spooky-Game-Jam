@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
         set
         {
             playerScore += value;
-            print(value);
             scoreText.text = "Score: " + playerScore;
         }
     }

@@ -6,6 +6,9 @@ public class FallingObjectGroundCollider : FallingObject
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        base.RemoveTerrain(collision);
+        if (gameObject.CompareTag("DestroysBlocks"))
+        {
+            base.RemoveTerrain(collision);
+        }
     }
 }

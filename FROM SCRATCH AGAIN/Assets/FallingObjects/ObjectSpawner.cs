@@ -29,12 +29,37 @@ public class ObjectSpawner : MonoBehaviour
     
     void HandleSpawnRate()
     {
-        objectToSpawn = objectsToSpawn[0];
-        if (objectToSpawn) // change to include "and not game over"
+        objectToSpawn = DetermineObjectToSpawn();
+
+        if (objectToSpawn) // change to include "and not game over?"
         {
             spawnRate = Mathf.Clamp(Mathf.Log(currentTime, 0.05f) + 2f, 0.2f, 2);
             SpawnFallingObject();
         }
+    }
+
+    private FallingObject DetermineObjectToSpawn()
+    {
+        FallingObject objectToSpawn = objectsToSpawn[0];
+
+        float sumOfWeights = 0;
+
+        for (int i = 0; i < objectsToSpawn.Length; i++)
+        {
+            sumOfWeights += objectsToSpawn[i].spawnWeight;
+        }
+
+        float randomWeight = Random.Range(0, sumOfWeights);
+
+        for (int i = 0; i < objectsToSpawn.Length; i++)
+        {
+            if (randomWeight < objectsToSpawn[i].spawnWeight)
+                return objectsToSpawn[i];
+            randomWeight -= objectsToSpawn[i].spawnWeight;
+        }
+
+        // if all else fails
+        return objectToSpawn;
     }
 
     private void Update()
@@ -83,6 +108,10 @@ public class ObjectSpawner : MonoBehaviour
             //print('f');
         
         yield return new WaitForSeconds(moveTime);
-        ObjectPooler.Instance.SpawnFromPool("Human", spawnPosition);
+
+        if (objectToSpawn is Bean)
+            ObjectPooler.Instance.SpawnFromPool("Human", spawnPosition);
+        if (objectToSpawn is HayRespawner)
+            ObjectPooler.Instance.SpawnFromPool("Hay", spawnPosition);
     }
 }
