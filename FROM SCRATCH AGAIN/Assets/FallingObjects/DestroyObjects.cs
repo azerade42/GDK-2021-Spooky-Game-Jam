@@ -12,9 +12,9 @@ public class DestroyObjects : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Player"))
         {
-            // Fire an event for game over, etc
+            GameManager.Instance.GameOver = true;
 
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
         }
     }
 }

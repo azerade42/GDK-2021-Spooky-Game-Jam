@@ -33,8 +33,16 @@ public class PlayerController : MonoBehaviour
     private int storedDashes;
     private float timeSinceLastDash = 0;
 
+    [SerializeField] Color defaultColor;
+    [SerializeField] Color dashColor;
+    [SerializeField] Color jumpColor;
+    [SerializeField] Color emptyColor;
+
+    GameManager GMI;
+
     void Start()
     {
+        GMI = GameManager.Instance;
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
 
@@ -51,11 +59,19 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameManager.Instance.GameOver == true)
+            return;
+
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
     }
 
     private void ProcessPlayerInput()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameManager.Instance.QuitGame();
+        }
+
         float xInput = Input.GetAxis("Horizontal");
         float xMovement = xInput * speed;
 
@@ -77,6 +93,7 @@ public class PlayerController : MonoBehaviour
         {
             numJumps = storedJumps;
             numDashes = storedDashes;
+            spriteRenderer.color = new Color(255, 255, 255);
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && numJumps > 0)
@@ -105,6 +122,12 @@ public class PlayerController : MonoBehaviour
         float gravity = rb.gravityScale;
         rb.gravityScale = 0;
 
+        if (numDashes == 0)
+        {
+            spriteRenderer.color = new Color(150, 150, 0);
+        }
+        
+
         yield return new WaitForSeconds(dashTime);
 
         rb.gravityScale = gravity;
@@ -115,5 +138,10 @@ public class PlayerController : MonoBehaviour
     {
         numJumps--;
         rb.velocity = Vector2.up * jumpSpeed;
+
+        if (numJumps == 0)
+        {
+            spriteRenderer.color = new Color(0, 255, 255);
+        }
     }
 }
