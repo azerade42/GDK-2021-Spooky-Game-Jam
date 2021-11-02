@@ -10,7 +10,9 @@ public class FallingObjectGroundCollider : FallingObject
     {
         if (gameObject.CompareTag("DestroysBlocks"))
         {
-            base.RemoveTerrain(collision);
+            base.RemoveTerrain(collision, this);
+
+            //Physics2D.IgnoreCollision(collision.GetComponent<Collider2D>(), GetComponent<Collider2D>(), false);
 
             /*if (collision.CompareTag("Terrain") && parent is HayRespawner)
             {

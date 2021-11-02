@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4373838456157408379}
   - component: {fileID: 4373838456157408381}
   - component: {fileID: 7929663142371970448}
-  - component: {fileID: 1808969124}
-  m_Layer: 6
+  - component: {fileID: -1540857641002262004}
+  m_Layer: 7
   m_Name: TerrainTile
   m_TagString: Terrain
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 4373838456157408378}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.5, y: -4.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 1927245819
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5c658eb2a09114a95bf72b99081e0639, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4279cb7c24d3c4b0cb1bddb661757c8a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -105,7 +105,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!68 &1808969124
+--- !u!68 &-1540857641002262004
 EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,12 +118,12 @@ EdgeCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.2}
+  m_Offset: {x: 0, y: 0.5}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.25, y: 0.25}
-  - {x: 0.25, y: 0.25}
-  m_AdjacentStartPoint: {x: -0.25, y: 0.25}
-  m_AdjacentEndPoint: {x: 0.25, y: 0.25}
+  - {x: -0.5, y: 0}
+  - {x: 0.5, y: 0}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0

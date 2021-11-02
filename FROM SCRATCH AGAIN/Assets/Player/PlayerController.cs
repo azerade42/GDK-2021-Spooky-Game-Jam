@@ -16,11 +16,15 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Animator animator;
 
+    [SerializeField] float idleTimeBeforeDestroy;
+    private float lastTimeIdle = 0;
+    private float timeSinceSceneReset = 0;
+
     [SerializeField] float speed;
     [SerializeField] float jumpSpeed;
     [SerializeField] float xBounds;
     [SerializeField] float yBounds;
-    private int direction = 0;
+    private int direction = 1;
 
     [SerializeField] int numJumps;
     private int storedJumps;
@@ -50,6 +54,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        timeSinceSceneReset = 0;
+
         GMI = GameManager.Instance;
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
@@ -61,6 +67,17 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        timeSinceSceneReset += Time.deltaTime;
+
+        if (GameManager.Instance.GameOver == true)
+            return;
+
+        if (isPlayerIdle())
+        {
+            GameManager.Instance.GameOver = true;
+            return;
+        }
+
         ProcessPlayerInput();
 
         transform.position = new Vector2(Mathf.Clamp(transform.position.x, -xBounds, xBounds), Mathf.Clamp(transform.position.y, -Mathf.Infinity, yBounds));
@@ -91,11 +108,13 @@ public class PlayerController : MonoBehaviour
 
         if (xMovement < 0)
         {
+            lastTimeIdle = timeSinceSceneReset;
             direction = -1;
             spriteRenderer.flipX = true;
         }
         else if (xMovement > 0)
         {
+            lastTimeIdle = timeSinceSceneReset;
             direction = 1;
             spriteRenderer.flipX = false;
         }
@@ -116,6 +135,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && timeSinceLastDash > dashCooldown && numDashes > 0)
         {
+            lastTimeIdle = Time.time;
             //TELEPORTATION JUTSU rb.AddForce(new Vector2(direction * 10000, 0));
             StartCoroutine(Dash());
         }
@@ -161,6 +181,11 @@ public class PlayerController : MonoBehaviour
         {
             spriteRenderer.color = new Color(0, 255, 255);
         }
+    }
+
+    public bool isPlayerIdle()
+    {
+        return timeSinceSceneReset - lastTimeIdle > idleTimeBeforeDestroy;
     }
 
     public Vector2 GetPlayerPos()

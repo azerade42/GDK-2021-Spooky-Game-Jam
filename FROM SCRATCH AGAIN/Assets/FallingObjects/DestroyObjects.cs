@@ -13,8 +13,6 @@ public class DestroyObjects : MonoBehaviour
         else if (collision.gameObject.CompareTag("Player"))
         {
             GameManager.Instance.GameOver = true;
-
-            collision.gameObject.SetActive(false);
         }
     }
 }

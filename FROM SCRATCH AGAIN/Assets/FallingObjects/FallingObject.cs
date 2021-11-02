@@ -28,14 +28,18 @@ public class FallingObject : MonoBehaviour
         transform.Translate(new Vector3(0, yTranslation, 0));
     }
 
-    protected void RemoveTerrain(Collider2D collision)
+    protected void RemoveTerrain(Collider2D collision, FallingObject type)
     {
         if (collision.gameObject.CompareTag("Terrain"))
         {
             collision.gameObject.SetActive(false);
             GameManager.Instance.AddInactiveTerrain(collision.gameObject);
             
-            gameObject.SetActive(false);
+            if (!(type is FallingObjectGroundCollider))
+            {
+                gameObject.SetActive(false);
+            }
+            
         }
     }
 
@@ -123,4 +127,6 @@ public class FallingObject : MonoBehaviour
 
         return colorToDisplay;
     }
+
+    
 }

@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     private void RunGameOver()
     {
         gameOverText.gameObject.SetActive(true);
+        PlayerController.Instance.gameObject.SetActive(false);
     }
 
     public void RestartGame()
